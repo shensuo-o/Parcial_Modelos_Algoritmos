@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Charecter : MonoBehaviour
 {
-    public float speed = 7f;
+    public float speed;
     public float maxlife = 100f;
     public float life;
-    public GameObject bulletPrefab;
 
-    public void Fire(Transform SpawnBullet)
+    public Rigidbody2D rb;
+
+    public void Movement(Vector3 direction)
     {
-        if (SpawnBullet != null)
-        {
-            GameObject.Instantiate(bulletPrefab, SpawnBullet.position, SpawnBullet.rotation);
-        }
+        transform.position += direction * speed * Time.deltaTime;
     }
 
     public void TakeDamage(float amount)
@@ -33,5 +32,12 @@ public class Charecter : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void LookTarget(Vector3 lookAtDirection)
+    {
+        
+        float angle = Mathf.Atan2(lookAtDirection.y, lookAtDirection.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
