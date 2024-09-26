@@ -2,28 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Charecter
 {
     float _axisH;
     float _axisV;
 
-    public Rigidbody2D rb;
-    public float speed = 7f;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] Transform SpawnBullet;
 
-    public Transform SpawnBullet;
-
-    void Start()
+    private void Awake()
     {
-        
+        speed = 7f;
+        life = maxlife;
     }
-
-    // Update is called once per frame
     void Update()
     {
         _axisH = Input.GetAxisRaw("Horizontal");
         _axisV = Input.GetAxisRaw("Vertical");
 
         LookMouse();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Fire(SpawnBullet);
+        }
+        Death();
     }
 
     private void FixedUpdate()
@@ -43,7 +46,9 @@ public class Player : MonoBehaviour
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPosition.z = 0;
         Vector3 lookAtDirection = (mouseWorldPosition - transform.position).normalized;
-        Quaternion rotation = Quaternion.LookRotation(Vector3.forward, lookAtDirection);
-        transform.rotation = rotation;
+        //Quaternion rotation = Quaternion.LookRotation(Vector3.forward, lookAtDirection);
+        float angle = Mathf.Atan2(lookAtDirection.y, lookAtDirection.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0,0, angle);
+        SpawnBullet.rotation = Quaternion.Euler(0,0, angle);
     }
 }

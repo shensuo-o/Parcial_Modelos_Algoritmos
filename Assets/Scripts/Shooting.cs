@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    /*public void Fire(Transform SpawnBullet, GameObject bulletPreFab)
     {
-        
-    }
+            if (SpawnBullet != null)
+            {
+                GameObject.Instantiate(bulletPreFab, SpawnBullet.position, SpawnBullet.rotation);
+            }
+    }*/
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
