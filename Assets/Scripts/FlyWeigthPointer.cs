@@ -13,4 +13,12 @@ public static class FlyWeigthPointer
         rangeView = 10,
 
     };
+
+    public static readonly FlyWeigth Bullet = new FlyWeigth
+    {
+        speed = 8,
+        bulletDMG = 10,
+        lifeTime = 5,
+
+    };
 }

@@ -26,7 +26,11 @@ public class Enemy : Charecter
             LookTarget(lookAtDirection);
             Movement(lookAtDirection);
         }
-        Death();
+        if(life <= 0)
+        {
+            Death();
+        }
+
     }
 
     public void Movement(Vector3 direction)

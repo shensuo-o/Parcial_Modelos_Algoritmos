@@ -7,4 +7,6 @@ public class FlyWeigth
     public float speed;
     public int maxLife;
     public float rangeView;
+    public int bulletDMG;
+    public float lifeTime;
 }

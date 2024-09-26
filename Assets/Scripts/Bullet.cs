@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed;
-    public float lifeTime;
     public float timer;
-    public float bulletDamage;
-    static public float pjDMG = 5;
     public Rigidbody2D rb;
 
     void Update()
     {
-        transform.position += transform.right * speed * Time.deltaTime;
+        transform.position += transform.right * FlyWeigthPointer.Bullet.speed * Time.deltaTime;
 
         timer += Time.deltaTime;
-        if (timer >= lifeTime)
+        if (timer >= FlyWeigthPointer.Bullet.lifeTime)
         {
             Debug.Log("Volvi al pool");
             timer = 0f;
@@ -28,7 +24,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            collision.gameObject.GetComponent<Enemy>().TakeDamage(pjDMG);
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(FlyWeigthPointer.Bullet.bulletDMG);
         }
 
         BulletFactory.Instance.ReturnBullet(this);

@@ -23,10 +23,7 @@ public class Charecter : MonoBehaviour
 
     public void Death()
     {
-        if(life <= 0)
-        {
             Destroy(this.gameObject);
-        }
     }
 
     public void LookTarget(Vector3 lookAtDirection)
