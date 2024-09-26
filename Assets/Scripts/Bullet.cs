@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public float speed;
     public float lifeTime;
+    public float timer;
     public float bulletDamage;
     static public float pjDMG = 5;
     public Rigidbody2D rb;
@@ -13,7 +14,14 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.position += transform.right * speed * Time.deltaTime;
-        Destroy(gameObject, lifeTime);
+
+        timer += Time.deltaTime;
+        if (timer >= lifeTime)
+        {
+            Debug.Log("Volvi al pool");
+            timer = 0f;
+            BulletFactory.Instance.ReturnBullet(this);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -23,6 +31,17 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Enemy>().TakeDamage(pjDMG);
         }
 
-        Destroy(gameObject);
+        BulletFactory.Instance.ReturnBullet(this);
+    }
+
+    private void Reset()
+    {
+        timer = 0f;
+    }
+
+    public static void SwitchOnOff(Bullet b, bool active = true)
+    {
+        if (active) b.Reset();
+        b.gameObject.SetActive(active);
     }
 }

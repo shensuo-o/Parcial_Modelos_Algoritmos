@@ -10,7 +10,7 @@ public static class FlyWeigthPointer
     {
         speed = 4,
         maxLife = 100,
-        rangeView = 4,
+        rangeView = 10,
 
     };
 }

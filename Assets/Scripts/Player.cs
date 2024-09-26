@@ -32,7 +32,14 @@ public class Player : Charecter
 
         if (Input.GetMouseButtonDown(0))
         {
-            Shooting.Fire(SpawnBullet, bulletPrefab);
+            var b = BulletFactory.Instance.pool.GetObject();
+
+            if (!b)
+            {
+                return; 
+            }
+
+            b.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
         }
         Death();
     }
