@@ -5,16 +5,11 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Charecter : MonoBehaviour
 {
-    public float speed;
     public float maxlife = 100f;
     public float life;
 
     public Rigidbody2D rb;
 
-    public void Movement(Vector3 direction)
-    {
-        transform.position += direction * speed * Time.deltaTime;
-    }
 
     public void TakeDamage(float amount)
     {

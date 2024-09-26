@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : Charecter
 {
     float _axisH;
     float _axisV;
+
+    [SerializeField] float speed;
 
     [SerializeField] Transform SpawnBullet;
     [SerializeField] GameObject bulletPrefab;
@@ -38,6 +41,11 @@ public class Player : Charecter
     {
         Vector3 direction = new Vector3(_axisH, _axisV, 0).normalized;
         Movement(direction);
+    }
+
+    public void Movement(Vector3 direction)
+    {
+        transform.position += direction * speed * Time.deltaTime;
     }
 
     /*void LookMouse()

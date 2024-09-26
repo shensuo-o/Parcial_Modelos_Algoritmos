@@ -6,21 +6,21 @@ using UnityEngine;
 public class Enemy : Charecter
 {
     public Transform target;
-    public float rangeView;
+    //public float rangeView;
     float _distance;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        speed = 4f;
-        life = maxlife;
+        //speed = 4f;
+        life = FlyWeigthPointer.Enemy.maxLife;
 
     }
 
     private void Update()
     {
         _distance = Vector3.Distance(transform.position, target.transform.position);
-        if (_distance < rangeView)
+        if (_distance < FlyWeigthPointer.Enemy.rangeView)
         {
             Vector3 lookAtDirection = (target.position - transform.position).normalized;
             LookTarget(lookAtDirection);
@@ -29,9 +29,14 @@ public class Enemy : Charecter
         Death();
     }
 
+    public void Movement(Vector3 direction)
+    {
+        transform.position += direction * FlyWeigthPointer.Enemy.speed * Time.deltaTime;
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, rangeView);
+        Gizmos.DrawWireSphere(transform.position, FlyWeigthPointer.Enemy.rangeView);
         Gizmos.color = Color.red;
     }
 }
