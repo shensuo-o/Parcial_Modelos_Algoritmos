@@ -11,6 +11,7 @@ public static class FlyWeigthPointer
         speed = 4,
         maxLife = 100,
         rangeView = 10,
+        enemyDMG = 5,
 
     };
 

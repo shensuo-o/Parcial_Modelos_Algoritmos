@@ -8,6 +8,7 @@ public class Enemy : Charecter
     public Transform target;
     //public float rangeView;
     float _distance;
+    
 
     private void Awake()
     {
@@ -57,5 +58,13 @@ public class Enemy : Charecter
     {
         if (active) e.Reset();
         e.gameObject.SetActive(active);
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 8)
+        {
+            collision.gameObject.GetComponent<Player>().TakeDamage(FlyWeigthPointer.Enemy.enemyDMG);
+        }
     }
 }

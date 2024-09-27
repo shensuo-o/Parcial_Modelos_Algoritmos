@@ -1536,7 +1536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
-  timeLimit: 40
+  timeLimit: 90
   playerAlive: 1
   gameEnded: 0
 --- !u!4 &1668720950

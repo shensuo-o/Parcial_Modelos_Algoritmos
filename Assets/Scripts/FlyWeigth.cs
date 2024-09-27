@@ -9,4 +9,5 @@ public class FlyWeigth
     public float rangeView;
     public int bulletDMG;
     public float lifeTime;
+    public float enemyDMG;
 }
