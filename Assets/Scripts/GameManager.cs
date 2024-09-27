@@ -43,5 +43,7 @@ public class GameManager : MonoBehaviour
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        timer = timeLimit;
+        gameEnded = false;
     }
 }

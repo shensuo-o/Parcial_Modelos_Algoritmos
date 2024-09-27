@@ -17,6 +17,11 @@ public class Enemy : Charecter
 
     }
 
+    private void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+;    }
+
     private void Update()
     {
         _distance = Vector3.Distance(transform.position, target.transform.position);
@@ -26,9 +31,9 @@ public class Enemy : Charecter
             LookTarget(lookAtDirection);
             Movement(lookAtDirection);
         }
-        if(life <= 0)
+        if (life <= 0)
         {
-            Death();
+            EnemyFactory.Instance.ReturnEnemy(this);
         }
 
     }
@@ -42,5 +47,15 @@ public class Enemy : Charecter
     {
         Gizmos.DrawWireSphere(transform.position, FlyWeigthPointer.Enemy.rangeView);
         Gizmos.color = Color.red;
+    }
+    private void Reset()
+    {
+        life = FlyWeigthPointer.Enemy.maxLife;
+    }
+
+    public static void SwitchOnOff(Enemy e, bool active = true)
+    {
+        if (active) e.Reset();
+        e.gameObject.SetActive(active);
     }
 }
