@@ -22,28 +22,25 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         timer = timeLimit;
     }
     private void Update()
     {
-        if(!gameEnded)
+        if (playerAlive)
         {
-            if (playerAlive)
-            {
-                timer -= Time.deltaTime;
+            timer -= Time.deltaTime;
 
-                if (timer <= 0)
-                {
-                    gameEnded = true;
-                    ChangeScene("Win");
-                }
+            if (timer <= 0)
+            {
+                ChangeScene("Win");
+                timer = timeLimit;            
             }
-        }       
+        }      
     }
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
         timer = timeLimit;
-        gameEnded = false;
     }
 }

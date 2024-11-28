@@ -45,7 +45,7 @@ public class Player : Charecter
         {
             GameManager.instance.playerAlive = false;
             GameManager.instance.ChangeScene("Lose");
-            Death();
+            //Death();
         }
     }
 

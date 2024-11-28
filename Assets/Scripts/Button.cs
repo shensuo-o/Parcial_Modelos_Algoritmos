@@ -8,6 +8,7 @@ public class Button : MonoBehaviour
     {
         if(GameManager.instance != null)
         {
+            Debug.Log("Chage Scene");
             GameManager.instance.ChangeScene(sceneName);
         }
     }
