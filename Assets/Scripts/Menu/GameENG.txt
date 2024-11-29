@@ -1,5 +1,15 @@
 {
 "IDBJugar" : "PLAY",
 "IDBControls" : "CONTROLS",
-"IDBSalir" : "EXIT"
+"IDBSalir" : "EXIT",
+"IDBVolver" : "BACK TO MENU",
+"IDBMoverse" : "Movement",
+"IDBDisparo" : "Shooting",
+"IDBGanaste" : "You Win!",
+"IDBPerdiste" : "You Died",
+"IDBTitle" : "Controls",
+"IDBLeftclick" : "Left Click",
+"IDBResume" : "Resume",
+"IDBRetry" : "Try Again",
+"IDBPausa" : "Pause"
 }

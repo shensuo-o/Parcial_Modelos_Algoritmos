@@ -1,5 +1,15 @@
 {
 "IDBJugar" : "JUGAR",
 "IDBControls" : "CONTROLES",
-"IDBSalir" : "SALIR"
+"IDBSalir" : "SALIR",
+"IDBVolver" : "VOLVER AL MENU",
+"IDBMoverse" : "Movimiento",
+"IDBDisparo" : "Disparar",
+"IDBGanaste" : "Ganaste!",
+"IDBPerdiste" : "Has Muerto",
+"IDBTitle" : "Controles",
+"IDBLeftclick" : "Click Izquierdo",
+"IDBResume" : "Continuar",
+"IDBRetry" : "Volver a Jugar",
+"IDBPausa" : "Pausa"
 }
