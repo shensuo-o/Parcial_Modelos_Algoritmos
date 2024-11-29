@@ -1,0 +1,5 @@
+{
+"IDBJugar" : "PLAY",
+"IDBControls" : "CONTROLS",
+"IDBSalir" : "EXIT"
+}

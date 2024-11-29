@@ -1,0 +1,5 @@
+{
+"IDBJugar" : "JUGAR",
+"IDBControls" : "CONTROLES",
+"IDBSalir" : "SALIR"
+}

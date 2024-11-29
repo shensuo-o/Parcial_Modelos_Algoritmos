@@ -27,9 +27,9 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void Tutorial()
+    public void Controls()
     {
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("Controls");
     }
 
     public void GoBack()
