@@ -6,6 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    public GameObject pauseMenu;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenu.SetActive(true);
+        }
+    }
+
     public void Jugar()
     {
         SceneManager.LoadScene("Parcial1");
@@ -20,5 +30,15 @@ public class MenuManager : MonoBehaviour
     public void Tutorial()
     {
         SceneManager.LoadScene("Tutorial");
+    }
+
+    public void GoBack()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
     }
 }
