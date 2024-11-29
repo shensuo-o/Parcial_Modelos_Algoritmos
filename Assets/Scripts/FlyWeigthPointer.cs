@@ -22,4 +22,12 @@ public static class FlyWeigthPointer
         lifeTime = 5,
 
     };
+
+    public static readonly FlyWeigth EnemyBullet = new FlyWeigth
+    {
+        speed = 8,
+        bulletDMG = 10,
+        lifeTime = 5,
+
+    };
 }

@@ -42,14 +42,18 @@ public class Enemy : Charecter
     {
         _distance = Vector3.Distance(transform.position, target.transform.position);
         if(randomStrategy == 1)  _myCurrentStrategy.Update();
-        
+        if (randomStrategy == 2) _myCurrentStrategy.Update();
+
         if (_distance < FlyWeigthPointer.Enemy.rangeView)
         {
             Vector3 lookAtDirection = (target.position - transform.position).normalized;
             LookTarget(lookAtDirection);
             Movement(lookAtDirection);
             if (_myCurrentStrategy != null)
+            {
+                Debug.Log("enemigo dispara");
                 _myCurrentStrategy.Attack();
+            }
         }
         if (life <= 0)
         {

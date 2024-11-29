@@ -7,6 +7,7 @@ public class ShootAttack : IAttack
     Transform _bulletSpawner;
     float _cooldown;
     bool _canShoot;
+    float _cooldownTimer;
 
     public ShootAttack(Transform bulletSpawner, float cooldown, bool canShoot = true)
     {
@@ -17,26 +18,32 @@ public class ShootAttack : IAttack
     
     public void Attack()
     {
-
-            var b = BulletFactory.Instance.pool.GetObject();
-
+        if (_canShoot)
+        {
+            var b = EnemyBulletFactory.Instance.pool.GetObject();
             if (!b)
             {
                 return;
             }
 
             b.transform.SetPositionAndRotation(_bulletSpawner.position, _bulletSpawner.rotation);
-        
-        //StartCoroutine(Shoot());
+            _canShoot = false;
+        }
     }
 
-    public void Update() { }
-
-    /*public IEnumerator Shoot()
+    public void Update() 
     {
-        _canShoot = false;
-        Instantiate(_bulletPrefab, _bulletSpawner.position, _bulletSpawner.rotation);
-        yield return new WaitForSeconds(_cooldown);
+        if (!_canShoot)
+        {
+            _cooldownTimer += Time.deltaTime;
+            if (_cooldownTimer >= _cooldown) ResetCooldown();
+        }
+    }
+
+    private void ResetCooldown()
+    {
+        Debug.Log("Reseteo Cooldown");
+        _cooldownTimer = 0f;
         _canShoot = true;
-    }*/
+    }
 }

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8011976223985176948}
-  - component: {fileID: -9133172649642051492}
   - component: {fileID: -1888414800955364216}
+  - component: {fileID: 958900507483239032}
   m_Layer: 10
   m_Name: EnemyBullet
   m_TagString: Bullet
@@ -34,20 +34,6 @@ Transform:
   - {fileID: 7946688019305897059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-9133172649642051492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444655633888898278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb70144283c57044b3078b60d80cbf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  rb: {fileID: -1888414800955364216}
 --- !u!50 &-1888414800955364216
 Rigidbody2D:
   serializedVersion: 4
@@ -75,6 +61,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &958900507483239032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444655633888898278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1ab5afe9a823b45a5f8fd1e315b3d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  rb: {fileID: -1888414800955364216}
 --- !u!1 &2750693147142822901
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ad2449030b0e212488cff525a4c52336, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -213,7 +213,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ad2449030b0e212488cff525a4c52336, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -277,7 +277,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.024299562, y: -0.29158425}
+  m_Offset: {x: -0.00659135, y: -0.2774179}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -288,5 +288,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6317655, y: 2.7775578}
+  m_Size: {x: 0.8596881, y: 2.48006}
   m_EdgeRadius: 0

@@ -74,14 +74,4 @@ public class DashAttack : IAttack
         Debug.Log("Reseteo Cooldown");
         _canDash = true;
     }
-    /*private IEnumerator Dash()
-    {
-        _canDash = false;
-        _isDashing = true;
-        _rb.velocity = new Vector2(_direction.rotation.x * _speed, _direction.rotation.x * _speed);
-        yield return new WaitForSeconds(_dashingTime);
-        _isDashing = false;
-        yield return new WaitForSeconds(_cooldown);
-        _canDash = true;
-    }*/
 }
