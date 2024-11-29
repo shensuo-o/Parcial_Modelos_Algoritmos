@@ -59,12 +59,4 @@ public class Player : Charecter
     {
         transform.position += direction * speed * Time.deltaTime;
     }
-
-    /*void LookMouse()
-    {
-
-        float angle = Mathf.Atan2(lookAtDirection.y, lookAtDirection.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0,0, angle);
-        SpawnBullet.rotation = Quaternion.Euler(0,0, angle);
-    }*/
 }

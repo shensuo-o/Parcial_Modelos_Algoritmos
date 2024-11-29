@@ -8,6 +8,15 @@ public class Enemy : Charecter
     public Transform target;
     //public float rangeView;
     float _distance;
+
+    public int randomStrategy;
+    public Transform spawner;
+    public float shootCooldown;
+    public float dashCooldown;
+
+    IAttack _myCurrentStrategy;
+    IAttack _myDashAttack;
+    IAttack _myShootAttack;
     
 
     private void Awake()
@@ -16,6 +25,12 @@ public class Enemy : Charecter
         //speed = 4f;
         life = FlyWeigthPointer.Enemy.maxLife;
 
+        randomStrategy = Random.Range(1, 3);
+
+        _myDashAttack = new DashAttack(dashCooldown, rb, spawner);
+        _myShootAttack = new ShootAttack(spawner, shootCooldown);
+        if (randomStrategy == 1) _myCurrentStrategy = _myDashAttack;
+        else if (randomStrategy == 2) _myCurrentStrategy = _myShootAttack;
     }
 
     private void Start()
@@ -26,17 +41,21 @@ public class Enemy : Charecter
     private void Update()
     {
         _distance = Vector3.Distance(transform.position, target.transform.position);
+        if(randomStrategy == 1)  _myCurrentStrategy.Update();
+        
         if (_distance < FlyWeigthPointer.Enemy.rangeView)
         {
             Vector3 lookAtDirection = (target.position - transform.position).normalized;
             LookTarget(lookAtDirection);
             Movement(lookAtDirection);
+            if (_myCurrentStrategy != null)
+                _myCurrentStrategy.Attack();
         }
         if (life <= 0)
         {
             EnemyFactory.Instance.ReturnEnemy(this);
         }
-
+        
     }
 
     public void Movement(Vector3 direction)
