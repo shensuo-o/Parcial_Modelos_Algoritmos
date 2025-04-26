@@ -41,14 +41,26 @@ public class ObjPool<T>
 
         if (resultado != null)
         {
-            _switchOnOffCallBack(resultado, true);  
+            _switchOnOffCallBack(resultado, true);
         }
 
         return resultado;
     }
+
     public void ReturnObj(T obj)
     {
         _switchOnOffCallBack(obj, false);
         _currentStock.Add(obj);
     }
+
+    // Generator usado para poder Spawnear mas de un enemigo a la vez sin necesidad de sobrecargar el codigo
+    public IEnumerable<T> GetObjects(int cantidad)
+    {
+        for (int i = 0; i < cantidad; i++)
+        {
+            yield return GetObject();
+            Debug.Log("Uso generator del Pool");
+        }
+    }
 }
+
