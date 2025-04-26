@@ -6,7 +6,6 @@ using UnityEngine;
 public class Enemy : Charecter
 {
     public Transform target;
-    //public float rangeView;
     float _distance;
 
     public int randomStrategy;
@@ -22,7 +21,6 @@ public class Enemy : Charecter
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        //speed = 4f;
         life = FlyWeigthPointer.Enemy.maxLife;
 
         randomStrategy = Random.Range(1, 3);

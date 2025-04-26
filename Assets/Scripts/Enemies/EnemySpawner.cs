@@ -12,13 +12,13 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= spawnTime) 
+        if (timer >= spawnTime)
         {
-            var b = EnemyFactory.Instance.pool.GetObject();
+            var b = new {enemy = EnemyFactory.Instance.pool.GetObject()};
 
             int x = Random.Range(0, spawnPoints.Length);
 
-            b.transform.SetPositionAndRotation(spawnPoints[x].position, spawnPoints[x].rotation);
+            b.enemy.transform.SetPositionAndRotation(spawnPoints[x].position, spawnPoints[x].rotation);
 
             timer = 0;
         }

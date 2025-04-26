@@ -32,14 +32,14 @@ public class Player : Charecter
 
         if (Input.GetMouseButtonDown(0))
         {
-            var b = BulletFactory.Instance.pool.GetObject();
+            var b = new { bullet = BulletFactory.Instance.pool.GetObject() };
 
-            if (!b)
+            if (!b.bullet)
             {
                 return; 
             }
 
-            b.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
+            b.bullet.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
         }
         if(life <= 0)
         {

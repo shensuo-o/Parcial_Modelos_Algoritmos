@@ -20,13 +20,13 @@ public class ShootAttack : IAttack
     {
         if (_canShoot)
         {
-            var b = EnemyBulletFactory.Instance.pool.GetObject();
-            if (!b)
+            var b = new { bullet = EnemyBulletFactory.Instance.pool.GetObject() };
+            if (!b.bullet)
             {
                 return;
             }
 
-            b.transform.SetPositionAndRotation(_bulletSpawner.position, _bulletSpawner.rotation);
+            b.bullet.transform.SetPositionAndRotation(_bulletSpawner.position, _bulletSpawner.rotation);
             _canShoot = false;
         }
     }

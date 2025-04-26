@@ -10,7 +10,6 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.position += transform.right * FlyWeigthPointer.Bullet.speed * Time.deltaTime;
-
         timer += Time.deltaTime;
         if (timer >= FlyWeigthPointer.Bullet.lifeTime)
         {

@@ -10,13 +10,13 @@ public static class LanguageU
 
         for (int i = 0; i < data.Length; i++)
         {
-            var tempData = new Dictionary<string, string>();
+            var tempData = new Dictionary<string, string>() ;
 
             foreach (var item in data[i].data)
             {
-                var f = item.text.Split(',');
+                var f = new { text = item.text.Split(',') };
 
-                foreach (var d in f)
+                foreach (var d in f.text)
                 {
                     var c = d.Replace('{', ' ')
                              .Replace('"', ' ')
