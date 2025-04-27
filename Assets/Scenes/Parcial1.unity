@@ -2783,8 +2783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c45bff48fd62c140b1043e3a3a19833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  timeLimit: 90
+  timeLimit: 5
   playerAlive: 1
   gameEnded: 0
 --- !u!4 &1668720950

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class ObjPool<T>
 {
@@ -53,7 +54,7 @@ public class ObjPool<T>
         _currentStock.Add(obj);
     }
 
-    // Generator usado para poder Spawnear mas de un enemigo a la vez sin necesidad de sobrecargar el codigo
+    // Generator para obtener varios objetos
     public IEnumerable<T> GetObjects(int cantidad)
     {
         for (int i = 0; i < cantidad; i++)
@@ -62,5 +63,12 @@ public class ObjPool<T>
             Debug.Log("Uso generator del Pool");
         }
     }
+
+    // OrderBy para ordenar los objetos creados por el Generator
+    public IEnumerable<T> GetObjectsOrderedBy(Func<T, IComparable> keySelector, int cantidad)
+    {
+        return GetObjects(cantidad).OrderBy(keySelector);
+    }
 }
+
 

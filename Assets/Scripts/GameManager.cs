@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public float timeLimit = 10f;
-    public bool playerAlive = true;
+    public float timeLimit = 30f;
+    public bool playerAlive = false;
     public bool gameEnded = false;
 
     private IEnumerator<float> countdownEnumerator;
@@ -29,7 +29,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartCountdown();
+        playerAlive = true;
+        if (playerAlive)
+        {
+            StartCountdown();
+        }
     }
 
     private void Update()
@@ -39,19 +43,27 @@ public class GameManager : MonoBehaviour
             if (!countdownEnumerator.MoveNext())
             {
                 ChangeScene("Win");
+                playerAlive = false;
             }
-            else
+            else if (countdownEnumerator.Current <= 10f) // Solo muestra si está en los últimos 10 segundos
             {
-                Debug.Log($"Tiempo restante: {countdownEnumerator.Current:F2} segundos");
+                Debug.Log($"Tiempo restante (menos de 10 seg): {countdownEnumerator.Current:F2}");
             }
+        }
+        else if (!playerAlive && countdownEnumerator != null)
+        {
+            // Si el jugador murió, frenamos el generator
+            countdownEnumerator = null;
         }
     }
 
     private void StartCountdown()
     {
-        countdownEnumerator = CountdownGenerator(timeLimit).GetEnumerator();
+        countdownEnumerator = CountdownGenerator(timeLimit)
+                                .TakeWhile(t => t > 1f) // Ganamos 1 segundo antes para no morir de mala suerte
+                                .GetEnumerator();
     }
-    //Generator que te muestra cuantos segundos quedan antes del cambio de escena
+
     private IEnumerable<float> CountdownGenerator(float startTime)
     {
         float currentTime = startTime;
@@ -68,6 +80,11 @@ public class GameManager : MonoBehaviour
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        StartCountdown();
+        playerAlive = true;
+        // Reinicia el generator solo si el jugador está vivo
+        if (playerAlive)
+        {
+            StartCountdown();
+        }
     }
 }
