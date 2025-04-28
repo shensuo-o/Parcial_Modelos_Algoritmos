@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,7 +17,8 @@ public class Enemy : Charecter
     IAttack _myCurrentStrategy;
     IAttack _myDashAttack;
     IAttack _myShootAttack;
-    
+
+    private List<float> attackTimes = new List<float>();
 
     private void Awake()
     {
@@ -34,12 +36,12 @@ public class Enemy : Charecter
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-;    }
+    }
 
     private void Update()
     {
         _distance = Vector3.Distance(transform.position, target.transform.position);
-        if(randomStrategy == 1)  _myCurrentStrategy.Update();
+        if (randomStrategy == 1) _myCurrentStrategy.Update();
         if (randomStrategy == 2) _myCurrentStrategy.Update();
 
         if (_distance < FlyWeigthPointer.Enemy.rangeView)
@@ -51,13 +53,13 @@ public class Enemy : Charecter
             {
                 Debug.Log("enemigo dispara");
                 _myCurrentStrategy.Attack();
+                attackTimes.Add(Time.time);
             }
         }
         if (life <= 0)
         {
             EnemyFactory.Instance.ReturnEnemy(this);
         }
-        
     }
 
     public void Movement(Vector3 direction)
@@ -88,4 +90,21 @@ public class Enemy : Charecter
             collision.gameObject.GetComponent<Player>().TakeDamage(FlyWeigthPointer.Enemy.enemyDMG);
         }
     }
+
+    // Generator que registra los ataques de los enemigos de acuerdo al tiempo
+    public IEnumerable<float> GetAttackTimes()
+    {
+        foreach (var time in attackTimes)
+        {
+            yield return time;
+        }
+    }
+
+    // All() que registra si los enemigos atacaron al mismo tiempo todos juntos
+    public bool AllAttacksAfter(float seconds)
+    {
+        return attackTimes.All(t => t > seconds);
+    }
 }
+
+

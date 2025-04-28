@@ -1,22 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Bullet : MonoBehaviour
 {
     public float timer;
     public Rigidbody2D rb;
 
-    void Update()
+    private static List<Bullet> activeBullets = new List<Bullet>();
+
+    //Time-slicing para poder controlar el movimientod y vida de la bullet
+    private IEnumerator Start()
     {
-        transform.position += transform.right * FlyWeigthPointer.Bullet.speed * Time.deltaTime;
-        timer += Time.deltaTime;
-        if (timer >= FlyWeigthPointer.Bullet.lifeTime)
+        activeBullets.Add(this);
+
+        while (timer < FlyWeigthPointer.Bullet.lifeTime)
         {
-            Debug.Log("Volvi al pool");
-            timer = 0f;
-            BulletFactory.Instance.ReturnBullet(this);
+            transform.position += transform.right * FlyWeigthPointer.Bullet.speed * Time.deltaTime;
+            timer += Time.deltaTime;
+
+            yield return null;
         }
+
+        Debug.Log("Volvi al pool");
+        activeBullets.Remove(this);
+        BulletFactory.Instance.ReturnBullet(this);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -26,6 +35,7 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Enemy>().TakeDamage(FlyWeigthPointer.Bullet.bulletDMG);
         }
 
+        activeBullets.Remove(this);
         BulletFactory.Instance.ReturnBullet(this);
     }
 
@@ -39,4 +49,11 @@ public class Bullet : MonoBehaviour
         if (active) b.Reset();
         b.gameObject.SetActive(active);
     }
+
+    // OrderByDEscending para ordenar las Bullet
+    public static List<Bullet> GetBulletsOrderedByTimer()
+    {
+        return activeBullets.OrderByDescending(b => b.timer).ToList();
+    }
 }
+
