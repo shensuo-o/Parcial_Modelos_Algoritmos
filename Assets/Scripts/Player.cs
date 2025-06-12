@@ -41,11 +41,11 @@ public class Player : Charecter
 
             b.bullet.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
         }
+
         if(life <= 0)
         {
             GameManager.instance.playerAlive = false;
             GameManager.instance.ChangeScene("Lose");
-            //Death();
         }
     }
 

@@ -18,7 +18,7 @@ public class Enemy : Charecter
     IAttack _myDashAttack;
     IAttack _myShootAttack;
 
-    private List<float> attackTimes = new List<float>();
+    public List<float> attackTimes = new List<float>();
 
     private void Awake()
     {
@@ -54,10 +54,12 @@ public class Enemy : Charecter
                 Debug.Log("enemigo dispara");
                 _myCurrentStrategy.Attack();
                 attackTimes.Add(Time.time);
+                AllAttacksAfter(Time.time);
             }
         }
         if (life <= 0)
         {
+            GameManager.instance.defeatedEnemies.Add(this);
             EnemyFactory.Instance.ReturnEnemy(this);
         }
     }
@@ -91,19 +93,10 @@ public class Enemy : Charecter
         }
     }
 
-    // Generator que registra los ataques de los enemigos de acuerdo al tiempo
-    public IEnumerable<float> GetAttackTimes()
-    {
-        foreach (var time in attackTimes)
-        {
-            yield return time;
-        }
-    }
-
     // All() que registra si los enemigos atacaron al mismo tiempo todos juntos
     public bool AllAttacksAfter(float seconds)
     {
-        return attackTimes.All(t => t > seconds);
+        return attackTimes.SkipWhile(x => x < 5).OrderBy(x => x < x + 0.1f).All(t => t > seconds);
     }
 }
 

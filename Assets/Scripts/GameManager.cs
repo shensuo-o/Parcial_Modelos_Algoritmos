@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
     public bool gameEnded = false;
 
     private IEnumerator<float> countdownEnumerator;
+
+    public List<Enemy> defeatedEnemies = new List<Enemy>();
+    public List<Enemy> melee = new List<Enemy>();
 
     private void Awake()
     {
@@ -55,6 +59,25 @@ public class GameManager : MonoBehaviour
             // Si el jugador murió, frenamos el generator
             countdownEnumerator = null;
         }
+
+        if (playerAlive == false || gameEnded == true)
+        {
+            Debug.Log(StartCoroutine(DefeatedEnemiesList()));
+        }
+    }
+
+    private IEnumerator<Enemy[]> DefeatedEnemiesList()
+    {
+        var lista = new 
+        { 
+            melee = defeatedEnemies.TakeWhile(x => x.randomStrategy == 3).OrderBy(x => x.attackTimes.Count >= 0) .ToArray(), 
+            shooter = defeatedEnemies.TakeWhile(x => x.randomStrategy == 2).OrderBy(x => x.attackTimes.Count >= 0).ToArray(),
+            dasher = defeatedEnemies.TakeWhile(x => x.randomStrategy == 1).OrderBy(x => x.attackTimes.Count >= 0).ToArray()
+        };
+
+        var all = lista.melee.Concat(lista.shooter.Concat(lista.dasher)).ToArray();
+
+        yield return all;
     }
 
     private void StartCountdown()

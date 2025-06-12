@@ -10,10 +10,11 @@ public class Bullet : MonoBehaviour
 
     private static List<Bullet> activeBullets = new List<Bullet>();
 
-    //Time-slicing para poder controlar el movimientod y vida de la bullet
+    //Time-slicing para poder controlar el movimientod y vida de la bullet//Iñaki
     private IEnumerator Start()
     {
         activeBullets.Add(this);
+        GetBulletsOrderedByTimer();
 
         while (timer < FlyWeigthPointer.Bullet.lifeTime)
         {
@@ -53,7 +54,7 @@ public class Bullet : MonoBehaviour
     // OrderByDEscending para ordenar las Bullet
     public static List<Bullet> GetBulletsOrderedByTimer()
     {
-        return activeBullets.OrderByDescending(b => b.timer).ToList();
+        return activeBullets.Where(x => x.timer <= 4).OrderByDescending(b => b.timer).ToList();//Iñaki
     }
 }
 

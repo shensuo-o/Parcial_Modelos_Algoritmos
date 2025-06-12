@@ -23,16 +23,6 @@ public class Charecter : MonoBehaviour
         life -= amount;
         life = Mathf.Max(life, 0);
         lifeChanges.Enqueue(life);
-
-        if (life <= 0)
-        {
-            Death();
-        }
-    }
-
-    public void Death()
-    {
-        Destroy(this.gameObject);
     }
 
     public void LookTarget(Vector3 lookAtDirection)

@@ -20,8 +20,8 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < cantidad; i++)
         {
-            // Usamos Any() para verificar si hay al menos 10 enemigos activos. Usamos Take() para limitar la cantidad de objectos de la pool en 10
-            if (EnemyFactory.Instance.pool.GetObjects(10).Take(10).Any(e => e != null))
+            // Usamos Any() para verificar si hay al menos 10 enemigos activos. Usamos Take() para limitar la cantidad de objectos de la pool en 10. Los ordena por cantidad de vida y toma solo a los que tengan mas de la mitad de la vida.
+            if (EnemyFactory.Instance.pool.GetObjects(10).Take(10).OrderBy(x => x.life <= 50).Any(e => e.life >= 50))
             {
                 Debug.Log("Ya hay 10 enemigos activos. No se generarán más.");
                 yield break;
