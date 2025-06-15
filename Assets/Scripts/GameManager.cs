@@ -76,6 +76,9 @@ public class GameManager : MonoBehaviour
         };
 
         var all = lista.melee.Concat(lista.shooter.Concat(lista.dasher)).ToArray();
+        int totalDefeated = new[] { lista.melee, lista.shooter, lista.dasher }.Aggregate(0, (acc, arr) => acc + arr.Length);
+
+        Debug.Log("Total enemigos derrotados: " + totalDefeated);
 
         yield return all;
     }
