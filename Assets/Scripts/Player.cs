@@ -36,11 +36,12 @@ public class Player : Charecter
 
             if (!b.bullet)
             {
-                return; 
+                return;
             }
 
             b.bullet.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
         }
+
         if(life <= 0)
         {
             GameManager.instance.playerAlive = false;

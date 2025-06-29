@@ -20,7 +20,7 @@ public class ShootAttack : IAttack
     {
         if (_canShoot)
         {
-            var b = new { bullet = EnemyBulletFactory.Instance.pool.GetObject() };
+            var b = new { bullet = EnemyBulletFactory.Instance.pool.GetObject() }; //Tipo anonimo
             if (!b.bullet)
             {
                 return;
