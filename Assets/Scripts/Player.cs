@@ -49,6 +49,7 @@ public class Player : Charecter
             TorretaManager.instance.MostrarStats();
             boxCollider.enabled = false;
             turret.canShoot = false;
+            life = 1;
             //GameManager.instance.playerAlive = false;
             //GameManager.instance.ChangeScene("Lose");
         }
