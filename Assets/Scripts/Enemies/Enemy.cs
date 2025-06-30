@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : Charecter
 {
+    public int Tag;
     public Transform target;
     float _distance;
 
@@ -24,6 +25,7 @@ public class Enemy : Charecter
         life = FlyWeigthPointer.Enemy.maxLife;
 
         randomStrategy = Random.Range(1, 3);
+        Tag = randomStrategy;
 
         _myDashAttack = new DashAttack(dashCooldown, rb, spawner);
         _myShootAttack = new ShootAttack(spawner, shootCooldown);
