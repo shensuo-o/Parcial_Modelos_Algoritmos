@@ -10,9 +10,11 @@ public class TorretaManager : MonoBehaviour
 
     private List<(GameObject bala, string tipo)> balasImpacto = new();
     private List<(GameObject bala, string tipo, float tiempoInstancia)> balasMuertasConTiempo = new();
+    private List<(GameObject bala, string tipo, float tiempoInstancia)> todasLasBalas = new();
 
     private int totalImpacto = 0;
     private int totalMuertas = 0;
+    private int totalDisparadas = 0;
 
     void Update()
     {
@@ -21,6 +23,8 @@ public class TorretaManager : MonoBehaviour
 
         OrdenarImpactadas();
         OrdenarMuertas();
+
+        AgregadoYOrdenadoTotal();
     }
 
     void BalasImpactadas()
@@ -31,7 +35,13 @@ public class TorretaManager : MonoBehaviour
             bala.name.Contains("Especial") ? "Especial" : "Normal"
         )).ToList();
 
-        totalImpacto = balasImpacto.Aggregate(0, (acum, bala) => acum + 1);
+        totalImpacto = balasImpacto.Count;
+
+        foreach (var b in balasImpacto)
+        {
+            if (!todasLasBalas.Any(x => x.bala == b.bala))
+                todasLasBalas.Add((b.bala, b.tipo, Time.time));
+        }
     }
 
     void BalasMuertas()
@@ -43,7 +53,13 @@ public class TorretaManager : MonoBehaviour
             Time.time
         )).ToList();
 
-        totalMuertas = balasMuertasConTiempo.Aggregate(0, (acum, bala) => acum + 1);
+        totalMuertas = balasMuertasConTiempo.Count;
+
+        foreach (var b in balasMuertasConTiempo)
+        {
+            if (!todasLasBalas.Any(x => x.bala == b.bala))
+                todasLasBalas.Add((b.bala, b.tipo, b.tiempoInstancia));
+        }
     }
 
     void OrdenarImpactadas()
@@ -66,6 +82,24 @@ public class TorretaManager : MonoBehaviour
 
         foreach (var b in ordenadasPorTiempo)
         Debug.Log($"[Muerta] {b.bala.name} - {b.tiempoInstancia}");
+    }
+
+    void AgregadoYOrdenadoTotal()
+    {
+        totalDisparadas = todasLasBalas.Aggregate(0, (acum, b) => acum + 1);
+
+        Debug.Log($"Total de balas disparadas: {totalDisparadas}");
+
+        var ordenadasPorTiempo = todasLasBalas
+            .TakeWhile(b => b.tiempoInstancia >= 0)         
+            .OrderByDescending(b => b.tiempoInstancia)      
+            .ToArray();                                    
+
+        Debug.Log("Balas ordenadas por tiempo de instancia (más recientes primero):");
+        foreach (var b in ordenadasPorTiempo)
+        {
+            Debug.Log($"{b.bala.name} - Tipo: {b.tipo} - Tiempo: {b.tiempoInstancia}");
+        }
     }
 }
 
