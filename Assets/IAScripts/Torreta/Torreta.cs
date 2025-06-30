@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class Torreta : MonoBehaviour
 {
+    public bool canShoot;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject superBullet;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private int id;
+
     private void Start()
     {
         StartCoroutine(Shoot());
@@ -14,16 +20,16 @@ public class Torreta : MonoBehaviour
     {
         int count = 0;
 
-        while (true)
+        while (canShoot)
         {
             count++;
-            string msg = BulletGenerator().Take(count).Last();
-            Debug.LogWarning( msg + ", la torreta");
+            GameObject proyectile = BulletGenerator().Take(count).Last();
+            Instantiate(proyectile, spawnPoint.position, spawnPoint.rotation);
             yield return new WaitForSeconds(1);
         }
     }
 
-    private IEnumerable <string> BulletGenerator()
+    private IEnumerable <GameObject> BulletGenerator()
     {
         int count = 0;
         while (true)
@@ -31,11 +37,11 @@ public class Torreta : MonoBehaviour
             count++;
             if (count % 3 == 0)
             {
-                yield return "aca dispara una super balatro";
+                yield return superBullet;
             }
             else
             {
-                yield return "aca dispara una bala normal";
+                yield return bullet;
             }
         }
     }

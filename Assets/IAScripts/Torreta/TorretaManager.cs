@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TorretaManager : MonoBehaviour
 {
+    public static TorretaManager instance;
+
     public List<GameObject> balasQueImpactaronPlayer = new();
     public List<GameObject> balasQueMurieron = new();
 
@@ -16,26 +18,49 @@ public class TorretaManager : MonoBehaviour
     private int totalMuertas = 0;
     private int totalDisparadas = 0;
 
-    void Update()
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    /* void Update()
+     {
+         BalasImpactadas();
+         BalasMuertas();
+
+         OrdenarImpactadas();
+         OrdenarMuertas();
+
+         AgregadoYOrdenadoTotal();
+     }*/
+
+    public void SumarBalasImpactadas(GameObject bullet)
+    {
+        balasQueImpactaronPlayer.Add(bullet);
+    }
+
+    public void SumarBalasMuertas(GameObject bullet)
+    {
+        balasQueMurieron.Add(bullet);
+    }
+
+    public void MostrarStats()
     {
         BalasImpactadas();
         BalasMuertas();
-
         OrdenarImpactadas();
         OrdenarMuertas();
-
         AgregadoYOrdenadoTotal();
     }
 
-    void BalasImpactadas()
+    private void BalasImpactadas()
     {
-        balasImpacto = balasQueImpactaronPlayer.Select(bala =>
-        (
-            bala,
-            bala.name.Contains("Especial") ? "Especial" : "Normal"
-        )).ToList();
+        balasImpacto = balasQueImpactaronPlayer
+                        .Select(bala => (bala, bala.name
+                        .Contains("Especial") ? "Especial" : "Normal"))
+                        .ToList();
 
-        totalImpacto = balasImpacto.Count;
+        totalImpacto++;
 
         foreach (var b in balasImpacto)
         {
@@ -44,16 +69,11 @@ public class TorretaManager : MonoBehaviour
         }
     }
 
-    void BalasMuertas()
+    private void BalasMuertas()
     {
-        balasMuertasConTiempo = balasQueMurieron.Select(bala =>
-        (
-            bala,
-            bala.name.Contains("Especial") ? "Especial" : "Normal",
-            Time.time
-        )).ToList();
+        balasMuertasConTiempo = balasQueMurieron.Select(bala => (bala, bala.name.Contains("Especial") ? "Especial" : "Normal", Time.time)).ToList();
 
-        totalMuertas = balasMuertasConTiempo.Count;
+        totalMuertas++;
 
         foreach (var b in balasMuertasConTiempo)
         {
@@ -66,8 +86,8 @@ public class TorretaManager : MonoBehaviour
     {
         var ordenadasPorTipo = balasImpacto
             .Where(b => b.tipo == "Normal" || b.tipo == "Especial")
-            .OrderBy(b => b.tipo)                                   
-            .ToList();                                              
+            .OrderBy(b => b.tipo)
+            .ToList();
 
         foreach (var b in ordenadasPorTipo)
         Debug.Log($"[Impacto] {b.bala.name} - {b.tipo}");
@@ -76,9 +96,9 @@ public class TorretaManager : MonoBehaviour
     void OrdenarMuertas()
     {
         var ordenadasPorTiempo = balasMuertasConTiempo
-            .Skip(0)                                  
+            .Skip(0)
             .OrderByDescending(b => b.tiempoInstancia)
-            .ToList();                                 
+            .ToList();
 
         foreach (var b in ordenadasPorTiempo)
         Debug.Log($"[Muerta] {b.bala.name} - {b.tiempoInstancia}");
@@ -91,9 +111,9 @@ public class TorretaManager : MonoBehaviour
         Debug.Log($"Total de balas disparadas: {totalDisparadas}");
 
         var ordenadasPorTiempo = todasLasBalas
-            .TakeWhile(b => b.tiempoInstancia >= 0)         
-            .OrderByDescending(b => b.tiempoInstancia)      
-            .ToArray();                                    
+            .TakeWhile(b => b.tiempoInstancia >= 0)
+            .OrderByDescending(b => b.tiempoInstancia)
+            .ToArray();                               
 
         Debug.Log("Balas ordenadas por tiempo de instancia (más recientes primero):");
         foreach (var b in ordenadasPorTiempo)

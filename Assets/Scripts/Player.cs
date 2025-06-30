@@ -12,6 +12,8 @@ public class Player : Charecter
 
     [SerializeField] Transform SpawnBullet;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] BoxCollider2D boxCollider;
+    public Torreta turret;
 
     private void Awake()
     {
@@ -44,9 +46,11 @@ public class Player : Charecter
 
         if(life <= 0)
         {
-            GameManager.instance.playerAlive = false;
-            GameManager.instance.ChangeScene("Lose");
-            //Death();
+            TorretaManager.instance.MostrarStats();
+            boxCollider.enabled = false;
+            turret.canShoot = false;
+            //GameManager.instance.playerAlive = false;
+            //GameManager.instance.ChangeScene("Lose");
         }
     }
 
