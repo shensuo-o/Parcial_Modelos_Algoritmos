@@ -8,6 +8,8 @@ public class Player : Charecter
     float _axisH;
     float _axisV;
 
+    public BulletCount bulletCount;
+
     [SerializeField] float speed;
 
     [SerializeField] Transform SpawnBullet;
@@ -44,15 +46,16 @@ public class Player : Charecter
             b.bullet.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
         }
 
-        if(life <= 0)
+        if (life <= 0)
         {
+            life = 1;
             TorretaManager.instance.MostrarStats();
             EnemiesKilled.Instance.ShowEnemiesKilled();
             BalasUsadas.instance.LogBullets();
+            bulletCount.CalcularPeligroPorLayer();
             boxCollider.enabled = false;
             turret.canShoot = false;
-            life = 1;
-            //GameManager.instance.playerAlive = false;
+            GameManager.instance.playerAlive = false;
             //GameManager.instance.ChangeScene("Lose");
         }
     }
