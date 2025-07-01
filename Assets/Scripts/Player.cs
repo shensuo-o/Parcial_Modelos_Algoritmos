@@ -48,6 +48,7 @@ public class Player : Charecter
         {
             TorretaManager.instance.MostrarStats();
             EnemiesKilled.Instance.ShowEnemiesKilled();
+            BalasUsadas.instance.LogBullets();
             boxCollider.enabled = false;
             turret.canShoot = false;
             life = 1;

@@ -30,8 +30,15 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.layer == 6)
         {
             collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            impacto = true;
+        }
+        else
+        {
+            impacto = false;
         }
 
+
+        BalasUsadas.instance.AgregarBala(this.gameObject);
         BulletFactory.Instance.ReturnBullet(this);
     }
 
