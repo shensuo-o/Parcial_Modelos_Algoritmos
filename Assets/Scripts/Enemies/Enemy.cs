@@ -57,7 +57,8 @@ public class Enemy : Charecter
         }
         if (life <= 0)
         {
-            EnemyFactory.Instance.ReturnEnemy(this);
+            EnemiesKilled.Instance.AddKilledEnemy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
         
     }

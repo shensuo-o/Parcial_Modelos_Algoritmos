@@ -6,6 +6,13 @@ public class Bullet : MonoBehaviour
 {
     public float timer;
     public Rigidbody2D rb;
+    public bool impacto;
+    public float damage;
+
+    private void Start()
+    {
+        damage = Random.Range(10, 21);
+    }
 
     void Update()
     {
@@ -13,7 +20,6 @@ public class Bullet : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= FlyWeigthPointer.Bullet.lifeTime)
         {
-            Debug.Log("Volvi al pool");
             timer = 0f;
             BulletFactory.Instance.ReturnBullet(this);
         }
@@ -23,7 +29,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            collision.gameObject.GetComponent<Enemy>().TakeDamage(FlyWeigthPointer.Bullet.bulletDMG);
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
         }
 
         BulletFactory.Instance.ReturnBullet(this);

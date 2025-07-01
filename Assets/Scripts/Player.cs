@@ -47,6 +47,7 @@ public class Player : Charecter
         if(life <= 0)
         {
             TorretaManager.instance.MostrarStats();
+            EnemiesKilled.Instance.ShowEnemiesKilled();
             boxCollider.enabled = false;
             turret.canShoot = false;
             life = 1;

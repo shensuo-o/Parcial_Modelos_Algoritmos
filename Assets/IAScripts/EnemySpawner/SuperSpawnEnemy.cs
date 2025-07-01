@@ -33,8 +33,8 @@ public class SuperSpawnEnemy : MonoBehaviour
     {
         var enemigosDatos = GenerarEnemigos(cantidadEnemigos)
             .Where(e => e.tagAleatorio == 1 || e.tagAleatorio == 2)
-            .OrderBy(e => e.tagAleatorio)                            
-            .ToList();                                              
+            .OrderBy(e => e.tagAleatorio)
+            .ToList();
 
         var enemigosConSpawn = enemigosDatos.Select(e =>
         {
@@ -46,7 +46,7 @@ public class SuperSpawnEnemy : MonoBehaviour
                 spawnIndex = spawnIndex
             };
         }).OrderByDescending(e => e.spawnIndex)
-          .ToArray();                          
+          .ToArray();
 
         foreach (var e in enemigosConSpawn)
         {

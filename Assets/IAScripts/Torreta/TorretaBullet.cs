@@ -16,6 +16,7 @@ public class TorretaBullet : MonoBehaviour
         transform.position += Vector3.right * speed * Time.deltaTime;
 
         timer += Time.deltaTime;
+
         if (timer >= lifeTime)
         {
             DeathTime = Time.time;
