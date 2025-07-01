@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D rb;
     public bool impacto;
     public float damage;
+    public float timeFired;
 
     private void Start()
     {
@@ -37,7 +38,7 @@ public class Bullet : MonoBehaviour
             impacto = false;
         }
 
-
+        timeFired = Time.time;
         BalasUsadas.instance.AgregarBala(this.gameObject);
         BulletFactory.Instance.ReturnBullet(this);
     }

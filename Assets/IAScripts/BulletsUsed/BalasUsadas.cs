@@ -42,9 +42,23 @@ public class BalasUsadas : MonoBehaviour
     {
         var bulletData = GetImpactBullets(balasUsadas);
 
-        foreach ( var (bullet, damage, hit) in bulletData)
+        var average = AverageDamageLast10(balasUsadas);
+
+        foreach (var (bullet, damage, hit) in bulletData)
         {
             Debug.LogWarning($"Bala: " + bullet.name + " | ¿Impactó?:" + hit + " con daño: " + damage);
         }
+
+        Debug.LogWarning("El daño promedio de las ultimas 10 balas es " + average);
     }
+
+    public float AverageDamageLast10(List<GameObject> balas)
+    {
+        return balas.Where(b => b.GetComponent<Bullet>().impacto)
+                    .OrderByDescending(b => b.GetComponent<Bullet>().timeFired)
+                    .Take(10)
+                    .Average(b => b.GetComponent<Bullet>().damage);
+    }
+
+
 }
