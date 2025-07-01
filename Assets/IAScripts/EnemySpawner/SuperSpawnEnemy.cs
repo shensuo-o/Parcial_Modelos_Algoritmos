@@ -17,6 +17,15 @@ public class SuperSpawnEnemy : MonoBehaviour
 
     void Start()
     {
+        var statsFiltrados = IAEnemy.GenerarStats(10)
+        .Where(s => s.velocidad > 3f)
+        .OrderBy(s => s.vida)    
+        .ToArray();
+
+        foreach (var stat in statsFiltrados)
+        {
+            Debug.Log($"Vida: {stat.vida}, Daño: {stat.daño}, Velocidad: {stat.velocidad}");
+        }
         StartCoroutine(SpawnEnemigosCoroutine());
     }
 
