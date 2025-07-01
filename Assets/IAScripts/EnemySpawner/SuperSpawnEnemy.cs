@@ -22,10 +22,10 @@ public class SuperSpawnEnemy : MonoBehaviour
         .OrderBy(s => s.vida)    
         .ToArray();
 
-        foreach (var stat in statsFiltrados)
-        {
-            Debug.Log($"Vida: {stat.vida}, Daño: {stat.daño}, Velocidad: {stat.velocidad}");
-        }
+        //foreach (var stat in statsFiltrados)
+        //{
+            //Debug.Log($"Vida: {stat.vida}, Daño: {stat.daño}, Velocidad: {stat.velocidad}");
+        //}
         StartCoroutine(SpawnEnemigosCoroutine());
     }
 
