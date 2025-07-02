@@ -24,7 +24,7 @@ public class SpawnItems : MonoBehaviour
         StartCoroutine(SpawnItemsConTiempo());
     }
 
-    private IEnumerable<GameObject> GenerarItems(int total)
+    private IEnumerable<GameObject> GenerarItems(int total)//Manu generator
     {
         if (itemsDisponibles.Count == 0) yield break;
 
@@ -40,7 +40,7 @@ public class SpawnItems : MonoBehaviour
 
 
 
-    private IEnumerator SpawnItemsConTiempo()
+    private IEnumerator SpawnItemsConTiempo()//Manu Time-Slicing
     {
         foreach (var itemPrefab in itemsAInstanciar)
         {

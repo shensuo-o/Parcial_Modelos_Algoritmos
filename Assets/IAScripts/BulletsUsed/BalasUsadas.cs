@@ -18,7 +18,7 @@ public class BalasUsadas : MonoBehaviour
         balasUsadas.Add(bala);
     }
 
-    public IEnumerable <(GameObject bullet, bool hit)> BulletHistory(List<GameObject> balas)
+    public IEnumerable <(GameObject bullet, bool hit)> BulletHistory(List<GameObject> balas)//Iñaki Generator
     {
         foreach (var bullet in balas)
         {
@@ -32,7 +32,7 @@ public class BalasUsadas : MonoBehaviour
 
     public List<(GameObject bullet, float damage, bool hit)> GetImpactBullets(List<GameObject> balas)
     {
-        return BulletHistory(balas).Where(b => b.hit)
+        return BulletHistory(balas).Where(b => b.hit)//Iñaki LinQ
                                     .Select(b => (bullet: b.bullet, damage: b.bullet.GetComponent<Bullet>().damage, hit: b.bullet.GetComponent<Bullet>().impacto))
                                     .OrderByDescending(b => b.damage)
                                     .ToList();
@@ -52,7 +52,7 @@ public class BalasUsadas : MonoBehaviour
         Debug.LogWarning("El daño promedio de las ultimas 10 balas es " + average);
     }
 
-    public float AverageDamageLast10(List<GameObject> balas)
+    public float AverageDamageLast10(List<GameObject> balas)//Manu LinQ
     {
         return balas.Where(b => b.GetComponent<Bullet>().impacto)
                     .OrderByDescending(b => b.GetComponent<Bullet>().timeFired)

@@ -11,7 +11,7 @@ public class BulletCount : MonoBehaviour
     {
         GameObject[] todos = FindObjectsOfType<GameObject>();
 
-        var objetosFiltrados = todos
+        var objetosFiltrados = todos//Iñaki LinQ
             .Where(obj =>
                 obj.layer == 6 ||
                 obj.layer == 7 ||
@@ -22,9 +22,9 @@ public class BulletCount : MonoBehaviour
             .ToList();                           
 
 
-        int totalInstanciados = objetosFiltrados.Aggregate(0, (acum, obj) => acum + 1);
+        int totalInstanciados = objetosFiltrados.Aggregate(0, (acum, obj) => acum + 1);//Iñaki Aggregate
 
-        var ordenados = objetosFiltrados
+        var ordenados = objetosFiltrados// Iñaki LinQ
             .OrderBy(obj => obj.layer == 6 ? 0 : 1) 
             .ThenBy(obj => obj.layer)               
             .ToList();

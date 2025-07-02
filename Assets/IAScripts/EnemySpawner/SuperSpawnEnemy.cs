@@ -17,7 +17,7 @@ public class SuperSpawnEnemy : MonoBehaviour
 
     void Start()
     {
-        var statsFiltrados = IAEnemy.GenerarStats(10)
+        var statsFiltrados = IAEnemy.GenerarStats(10)//Angelo LinQ
         .Where(s => s.velocidad > 3f)
         .OrderBy(s => s.vida)    
         .ToArray();
@@ -29,7 +29,7 @@ public class SuperSpawnEnemy : MonoBehaviour
         StartCoroutine(SpawnEnemigosCoroutine());
     }
 
-    private IEnumerable<(int index, int tagAleatorio)> GenerarEnemigos(int cantidad)
+    private IEnumerable<(int index, int tagAleatorio)> GenerarEnemigos(int cantidad)//Angelo
     {
         for (int i = 0; i < cantidad; i++)
         {
@@ -38,14 +38,14 @@ public class SuperSpawnEnemy : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnEnemigosCoroutine()
+    private IEnumerator SpawnEnemigosCoroutine()//Angelo Time Slicing
     {
-        var enemigosDatos = GenerarEnemigos(cantidadEnemigos)
+        var enemigosDatos = GenerarEnemigos(cantidadEnemigos) //Angelo LINQ
             .Where(e => e.tagAleatorio == 1 || e.tagAleatorio == 2)
             .OrderBy(e => e.tagAleatorio)
             .ToList();
 
-        var enemigosConSpawn = enemigosDatos.Select(e =>
+        var enemigosConSpawn = enemigosDatos.Select(e => //Angelo LINQ 
         {
             int spawnIndex = Random.Range(0, puntosDeSpawn.Length);
             return new
@@ -53,7 +53,7 @@ public class SuperSpawnEnemy : MonoBehaviour
                 index = e.index,
                 tag = e.tagAleatorio,
                 spawnIndex = spawnIndex
-            };
+            };//Angelo Anonimo
         }).OrderByDescending(e => e.spawnIndex)
           .ToArray();
 

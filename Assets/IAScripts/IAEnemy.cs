@@ -5,7 +5,7 @@ using System.Linq;
 
 public class IAEnemy : Charecter
 {
-    public static IEnumerable<(int vida, int daño, float velocidad)> GenerarStats(int cantidad)
+    public static IEnumerable<(int vida, int daño, float velocidad)> GenerarStats(int cantidad)//Aria Generator
     {
         for (int i = 0; i < cantidad; i++)
         {
@@ -13,7 +13,7 @@ public class IAEnemy : Charecter
             int daño = Random.Range(3, 10);
             float velocidad = Random.Range(2f, 5f);
             yield return (vida, daño, velocidad);
-        }
+        }//Aria Tupla
     }
 
     private float velocidad;

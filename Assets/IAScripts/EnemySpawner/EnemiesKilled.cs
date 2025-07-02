@@ -18,9 +18,9 @@ public class EnemiesKilled : MonoBehaviour
         enemies.Add(enemy);
     }
 
-    public IEnumerable<(GameObject enemy, int type)> EnemigosAsesinaods()
+    public IEnumerable<(GameObject enemy, int type)> EnemigosAsesinaods()//Iñaki Generator
     {
-        return enemies.Where(x => x.GetComponent<IAEnemy>().Tag == 1 || x.GetComponent<IAEnemy>().Tag == 2)
+        return enemies.Where(x => x.GetComponent<IAEnemy>().Tag == 1 || x.GetComponent<IAEnemy>().Tag == 2)//Iñaki LinQ
                        .OrderBy(x => x.GetComponent<IAEnemy>().Tag)
                        .Select(x => (enemy: x, type: x.GetComponent<IAEnemy>().Tag))
                        .ToList();

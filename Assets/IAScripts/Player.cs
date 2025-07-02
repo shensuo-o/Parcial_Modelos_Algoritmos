@@ -65,7 +65,7 @@ public class Player : Charecter
     {
         CanShoot = false;
 
-        var b = new { bullet = BulletFactory.Instance.pool.GetObject() };
+        var b = new { bullet = BulletFactory.Instance.pool.GetObject() }; //Anonimo Iñaki
 
         if (!b.bullet)
         {
@@ -84,7 +84,7 @@ public class Player : Charecter
         transform.position += direction * speed * Time.deltaTime;
     }
 
-    IEnumerator MostrarStats()
+    IEnumerator MostrarStats()//Aria Time-Slicing
     {
         Debug.Log("Mostrando estadísticas...");
 

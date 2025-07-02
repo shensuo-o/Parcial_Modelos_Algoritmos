@@ -14,7 +14,7 @@ public static class LanguageU
 
             foreach (var item in data[i].data)
             {
-                var f = new { text = item.text.Split(',') };
+                var f = new { text = item.text.Split(',') };//Manu Anonimo
 
                 foreach (var d in f.text)
                 {

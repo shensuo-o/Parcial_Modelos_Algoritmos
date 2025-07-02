@@ -10,9 +10,9 @@ public class TorretaManager : MonoBehaviour
     public List<GameObject> balasQueImpactaronPlayer = new();
     public List<GameObject> balasQueMurieron = new();
 
-    private List<(GameObject bala, string tipo)> balasImpacto = new();
-    private List<(GameObject bala, string tipo, float tiempoInstancia)> balasMuertasConTiempo = new();
-    private List<(GameObject bala, string tipo, float tiempoInstancia)> todasLasBalas = new();
+    private List<(GameObject bala, string tipo)> balasImpacto = new();//Angelo Tupla
+    private List<(GameObject bala, string tipo, float tiempoInstancia)> balasMuertasConTiempo = new(); //Iñaki Tupla
+    private List<(GameObject bala, string tipo, float tiempoInstancia)> todasLasBalas = new(); //Manu Tupla
 
     private int totalImpacto = 0;
     private int totalMuertas = 0;
@@ -53,38 +53,38 @@ public class TorretaManager : MonoBehaviour
         AgregadoYOrdenadoTotal();
     }
 
-    private void BalasImpactadas()
+    private void BalasImpactadas()//Angelo Tupla
     {
         balasImpacto = balasQueImpactaronPlayer
                         .Select(bala => (bala, bala.name
                         .Contains("Super") ? "Super" : "Normal"))
                         .ToList();
 
-        totalImpacto++;
-
         foreach (var b in balasImpacto)
         {
             if (!todasLasBalas.Any(x => x.bala == b.bala))
                 todasLasBalas.Add((b.bala, b.tipo, b.bala.GetComponent<TorretaBullet>().DeathTime));
         }
+
+        totalImpacto = balasImpacto.Aggregate(0, (acum, bala) => acum + 1);//Angelo Aggregate
     }
 
-    private void BalasMuertas()
+    private void BalasMuertas()//Iñaki Tupla
     {
         balasMuertasConTiempo = balasQueMurieron.Select(bala => (bala, bala.name.Contains("Super") ? "Super" : "Normal", bala.GetComponent<TorretaBullet>().DeathTime)).ToList();
-
-        totalMuertas++;
 
         foreach (var b in balasMuertasConTiempo)
         {
             if (!todasLasBalas.Any(x => x.bala == b.bala))
                 todasLasBalas.Add((b.bala, b.tipo, b.tiempoInstancia));
+
+            totalMuertas = balasMuertasConTiempo.Aggregate(0, (acum, bala) => acum + 1);//Manu Aggregate
         }
     }
 
     void OrdenarImpactadas()
     {
-        var ordenadasPorTipo = balasImpacto
+        var ordenadasPorTipo = balasImpacto//Aria LinQ
             .Where(b => b.tipo == "Normal" || b.tipo == "Super")
             .OrderBy(b => b.tipo)
             .ToList();
@@ -96,7 +96,7 @@ public class TorretaManager : MonoBehaviour
 
     }
 
-    void OrdenarMuertas()
+    void OrdenarMuertas()//Aria LinQ
     {
         var ordenadasPorTiempo = balasMuertasConTiempo
             .Skip(0)
@@ -109,11 +109,11 @@ public class TorretaManager : MonoBehaviour
 
     void AgregadoYOrdenadoTotal()
     {
-        totalDisparadas = todasLasBalas.Aggregate(0, (acum, b) => acum + 1);
+        totalDisparadas = todasLasBalas.Aggregate(0, (acum, b) => acum + 1);//Aria Agregate
 
         Debug.Log($"Total de balas disparadas: {totalDisparadas}");
 
-        var ordenadasPorTiempo = todasLasBalas
+        var ordenadasPorTiempo = todasLasBalas//Aria LinQ
             .TakeWhile(b => b.tiempoInstancia >= 0)
             .OrderByDescending(b => b.tiempoInstancia)
             .ToArray();                               
