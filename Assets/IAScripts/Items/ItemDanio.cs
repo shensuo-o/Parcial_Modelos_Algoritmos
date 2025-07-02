@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class ItemDanio : MonoBehaviour
 {
+    [SerializeField] private float dmgE;
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.LogError("toque al player");
         if (other.GetComponent<Player>())
         {
-            PlayerBonus.damageExtra += 5;
+            PlayerBonus.damageExtra +=dmgE;
             Debug.Log($"Bonus de daño ahora: +{PlayerBonus.damageExtra}");
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

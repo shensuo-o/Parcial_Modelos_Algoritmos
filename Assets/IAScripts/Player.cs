@@ -17,11 +17,14 @@ public class Player : Charecter
     [SerializeField] BoxCollider2D boxCollider;
     public Torreta turret;
 
+    private bool CanShoot;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         speed = 7f;
         life = maxlife;
+        CanShoot = true;
     }
     void Update()
     {
@@ -34,16 +37,9 @@ public class Player : Charecter
         LookTarget(lookAtDirection);
         SpawnBullet.rotation = transform.rotation;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && CanShoot)
         {
-            var b = new { bullet = BulletFactory.Instance.pool.GetObject() };
-
-            if (!b.bullet)
-            {
-                return;
-            }
-
-            b.bullet.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
+            StartCoroutine(BulletCD());
         }
 
         if (life <= 0)
@@ -63,6 +59,24 @@ public class Player : Charecter
     {
         Vector3 direction = new Vector3(_axisH, _axisV, 0).normalized;
         Movement(direction);
+    }
+
+    private IEnumerator BulletCD() //Time-Slicing Iñaki
+    {
+        CanShoot = false;
+
+        var b = new { bullet = BulletFactory.Instance.pool.GetObject() };
+
+        if (!b.bullet)
+        {
+            yield break;
+        }
+
+        b.bullet.transform.SetPositionAndRotation(SpawnBullet.position, SpawnBullet.rotation);
+
+        yield return new WaitForSeconds(0.1f);
+
+        CanShoot = true;
     }
 
     public void Movement(Vector3 direction)

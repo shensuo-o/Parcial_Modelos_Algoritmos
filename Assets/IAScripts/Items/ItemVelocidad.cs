@@ -6,11 +6,12 @@ public class ItemVelocidad : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.LogError("toque al player");
         Player player = other.GetComponent<Player>();
         if (player != null)
         {
             player.AumentarVelocidad(1f);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

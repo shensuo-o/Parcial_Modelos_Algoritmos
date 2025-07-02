@@ -20,9 +20,9 @@ public class EnemiesKilled : MonoBehaviour
 
     public IEnumerable<(GameObject enemy, int type)> EnemigosAsesinaods()
     {
-        return enemies.Where(x => x.GetComponent<Enemy>().Tag == 1 || x.GetComponent<Enemy>().Tag == 2)
-                       .OrderBy(x => x.GetComponent<Enemy>().Tag)
-                       .Select(x => (enemy: x, type: x.GetComponent<Enemy>().Tag))
+        return enemies.Where(x => x.GetComponent<IAEnemy>().Tag == 1 || x.GetComponent<IAEnemy>().Tag == 2)
+                       .OrderBy(x => x.GetComponent<IAEnemy>().Tag)
+                       .Select(x => (enemy: x, type: x.GetComponent<IAEnemy>().Tag))
                        .ToList();
     }
 

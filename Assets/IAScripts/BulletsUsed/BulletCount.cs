@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BulletCount : MonoBehaviour
 {
-
     private int peligro = 0;
 
      public void CalcularPeligroPorLayer()

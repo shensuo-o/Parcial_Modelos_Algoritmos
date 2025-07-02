@@ -6,11 +6,15 @@ public class ItemCuracion : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Player player = other.GetComponent<Player>();
-        if (player != null)
+        Debug.LogError("toque al player");
+        if (other.gameObject.layer == 8)
         {
-            player.AumentarVida(10);
-            Destroy(gameObject);
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.AumentarVida(10);
+                Destroy(this.gameObject);
+            }
         }
     }
 }

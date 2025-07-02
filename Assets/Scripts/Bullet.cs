@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            collision.gameObject.GetComponent<IAEnemy>().TakeDamage(damage);
             impacto = true;
         }
         else
