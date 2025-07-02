@@ -49,10 +49,9 @@ public class Player : Charecter
         if (life <= 0)
         {
             life = 1;
-            TorretaManager.instance.MostrarStats();
-            EnemiesKilled.Instance.ShowEnemiesKilled();
-            BalasUsadas.instance.LogBullets();
-            bulletCount.CalcularPeligroPorLayer();
+
+            StartCoroutine(MostrarStats());
+
             boxCollider.enabled = false;
             turret.canShoot = false;
             GameManager.instance.playerAlive = false;
@@ -70,4 +69,24 @@ public class Player : Charecter
     {
         transform.position += direction * speed * Time.deltaTime;
     }
+
+    IEnumerator MostrarStats()
+    {
+        Debug.Log("Mostrando estadísticas...");
+
+        TorretaManager.instance.MostrarStats();
+        yield return new WaitForSeconds(0.3f);
+
+        EnemiesKilled.Instance.ShowEnemiesKilled();
+        yield return new WaitForSeconds(0.3f);
+
+        BalasUsadas.instance.LogBullets();
+        yield return new WaitForSeconds(0.3f);
+
+        bulletCount.CalcularPeligroPorLayer();
+        yield return new WaitForSeconds(0.3f);
+
+        Debug.Log("Estadísticas finalizadas");
+    }
+
 }
