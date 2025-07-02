@@ -29,7 +29,7 @@ public class SpawnItems : MonoBehaviour
         if (itemsDisponibles.Count == 0) yield break;
 
         //LINQ Grupo 1
-        var filtrados = itemsDisponibles.Where(item => item != null).ToList();
+        var filtrados = itemsDisponibles.Where(item => item != null).ToList();//LINQ Grupo 1
 
         for (int i = 0; i < total; i++)
         {
