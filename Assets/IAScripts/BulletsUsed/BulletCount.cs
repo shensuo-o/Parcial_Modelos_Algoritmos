@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BulletCount : MonoBehaviour
 {
-    public static BulletCount instance;
 
     private int peligro = 0;
 
@@ -13,12 +12,16 @@ public class BulletCount : MonoBehaviour
     {
         GameObject[] todos = FindObjectsOfType<GameObject>();
 
-        var objetosFiltrados = todos.Where(obj =>
-            obj.layer == 6 ||
-            obj.layer == 7 ||
-            obj.layer == 10 ||
-            obj.layer == 11
-        ).ToList();
+        var objetosFiltrados = todos
+            .Where(obj =>
+                obj.layer == 6 ||
+                obj.layer == 7 ||
+                obj.layer == 10 ||
+                obj.layer == 11
+            )
+            .OrderByDescending(obj => obj.layer)
+            .ToList();                           
+
 
         int totalInstanciados = objetosFiltrados.Aggregate(0, (acum, obj) => acum + 1);
 
@@ -48,7 +51,7 @@ public class BulletCount : MonoBehaviour
             }
         }
 
-        Debug.Log("Nivel de peligro Final del Nivel: {peligro} (Total objetos: {totalInstanciados})");
+        Debug.Log($"Nivel de peligro Final del Nivel: {peligro} (Total objetos: {totalInstanciados})");
     }
 }
 
