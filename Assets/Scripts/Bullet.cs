@@ -12,8 +12,10 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        damage = Random.Range(10, 21);
+        float baseDamage = Random.Range(10, 21);
+        damage = baseDamage + PlayerBonus.damageExtra;
     }
+
 
     void Update()
     {

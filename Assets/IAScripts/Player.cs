@@ -89,4 +89,17 @@ public class Player : Charecter
         Debug.Log("Estadísticas finalizadas");
     }
 
+    public void AumentarVida(int cantidad)
+    {
+        life += cantidad;
+        Debug.Log($"Vida aumentada a {life}");
+    }
+
+    public void AumentarVelocidad(float cantidad)
+    {
+        speed += cantidad;
+        Debug.Log($"Velocidad aumentada a {speed}");
+    }
+
+
 }
