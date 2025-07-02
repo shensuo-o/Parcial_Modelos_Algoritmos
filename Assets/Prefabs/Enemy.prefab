@@ -53,7 +53,7 @@ MonoBehaviour:
   Tag: 0
   target: {fileID: 0}
   randomStrategy: 0
-  spawner: {fileID: 0}
+  spawner: {fileID: 7200769996960144750}
   shootCooldown: 5
   dashCooldown: 3
 --- !u!50 &1232912271550410727

@@ -3404,7 +3404,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxItemsASpawnear: 20
-  itemsDisponibles: []
+  itemsDisponibles:
+  - {fileID: 1792840737604755745, guid: 3c6107f41457c994baa6c91f78e8b98b, type: 3}
+  - {fileID: 1792840737604755745, guid: 6c5737531aa474b4a849fead355515e7, type: 3}
+  - {fileID: 1792840737604755745, guid: 905968a7a7abee84f88296bd794884ef, type: 3}
   spawnPoints:
   - {fileID: 35101598}
   - {fileID: 1915570828}
