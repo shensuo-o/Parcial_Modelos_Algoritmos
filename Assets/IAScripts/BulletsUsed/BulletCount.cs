@@ -6,8 +6,9 @@ using UnityEngine;
 public class BulletCount : MonoBehaviour
 {
     private int peligro = 0;
+    private int totalInstanciados = 0;
 
-     public void CalcularPeligroPorLayer()
+    public void CalcularPeligroPorLayer()
     {
         GameObject[] todos = FindObjectsOfType<GameObject>();
 
@@ -19,36 +20,30 @@ public class BulletCount : MonoBehaviour
                 obj.layer == 11
             )
             .OrderByDescending(obj => obj.layer)
-            .ToList();                           
+            .ToList();
 
-
-        int totalInstanciados = objetosFiltrados.Aggregate(0, (acum, obj) => acum + 1);//Iñaki Aggregate
+        totalInstanciados++;
 
         var ordenados = objetosFiltrados// Iñaki LinQ
             .OrderBy(obj => obj.layer == 6 ? 0 : 1) 
             .ThenBy(obj => obj.layer)               
             .ToList();
 
-        peligro = 0;
-
-        foreach (var obj in ordenados)
+        peligro = ordenados.Aggregate(0, (a, obj) => //Manu Aggregate
         {
             switch (obj.layer)
             {
                 case 6:
-                    peligro += 2;
-                    break;
-
+                    return a + 2;
                 case 10:
                 case 11:
-                    peligro += 1;
-                    break;
-
+                    return a + 1;
                 case 7:
-                    peligro -= 1;
-                    break;
+                    return a - 1;
+                default:
+                    return a;
             }
-        }
+        });
 
         Debug.Log($"Nivel de peligro Final del Nivel: {peligro} (Total objetos: {totalInstanciados})");
     }

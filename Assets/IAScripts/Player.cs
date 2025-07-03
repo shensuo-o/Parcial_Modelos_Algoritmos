@@ -26,6 +26,7 @@ public class Player : Charecter
         life = maxlife;
         CanShoot = true;
     }
+
     void Update()
     {
         _axisH = Input.GetAxisRaw("Horizontal");

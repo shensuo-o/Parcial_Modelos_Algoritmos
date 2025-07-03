@@ -10,9 +10,9 @@ public class TorretaManager : MonoBehaviour
     public List<GameObject> balasQueImpactaronPlayer = new();
     public List<GameObject> balasQueMurieron = new();
 
-    private List<(GameObject bala, string tipo)> balasImpacto = new();//Angelo Tupla
-    private List<(GameObject bala, string tipo, float tiempoInstancia)> balasMuertasConTiempo = new(); //Iñaki Tupla
-    private List<(GameObject bala, string tipo, float tiempoInstancia)> todasLasBalas = new(); //Manu Tupla
+    private List<(GameObject bala, string tipo)> balasImpacto = new(); // Angelo Tupla
+    private List<(GameObject bala, string tipo, float tiempoInstancia)> balasMuertasConTiempo = new(); // Iñaki Tupla
+    private List<(GameObject bala, string tipo, float tiempoInstancia)> todasLasBalas = new(); // Manu Tupla
 
     private int totalImpacto = 0;
     private int totalMuertas = 0;
@@ -22,17 +22,6 @@ public class TorretaManager : MonoBehaviour
     {
         instance = this;
     }
-
-    /* void Update()
-     {
-         BalasImpactadas();
-         BalasMuertas();
-
-         OrdenarImpactadas();
-         OrdenarMuertas();
-
-         AgregadoYOrdenadoTotal();
-     }*/
 
     public void SumarBalasImpactadas(GameObject bullet)
     {
@@ -53,12 +42,11 @@ public class TorretaManager : MonoBehaviour
         AgregadoYOrdenadoTotal();
     }
 
-    private void BalasImpactadas()//Angelo Tupla
+    private void BalasImpactadas() // Angelo Tupla
     {
         balasImpacto = balasQueImpactaronPlayer
-                        .Select(bala => (bala, bala.name
-                        .Contains("Super") ? "Super" : "Normal"))
-                        .ToList();
+            .Select(bala => (bala, bala.name.Contains("Super") ? "Super" : "Normal"))
+            .ToList();
 
         foreach (var b in balasImpacto)
         {
@@ -66,25 +54,54 @@ public class TorretaManager : MonoBehaviour
                 todasLasBalas.Add((b.bala, b.tipo, b.bala.GetComponent<TorretaBullet>().DeathTime));
         }
 
-        totalImpacto = balasImpacto.Aggregate(0, (acum, bala) => acum + 1);//Angelo Aggregate
+        var resultadoImpacto = balasImpacto.Aggregate( //Angelo Aggregate
+            (Total: 0, Normales: 0, Supers: 0),
+            (acc, b) =>
+            {
+                acc.Total++;
+                if (b.tipo == "Normal") acc.Normales++;
+                else if (b.tipo == "Super") acc.Supers++;
+                return acc;
+            });
+
+        totalImpacto = resultadoImpacto.Total;
+
+        Debug.Log($"Impactaron {resultadoImpacto.Total} balas (Normales: {resultadoImpacto.Normales}, Supers: {resultadoImpacto.Supers})");
     }
 
-    private void BalasMuertas()//Iñaki Tupla
+    private void BalasMuertas() // Iñaki Tupla
     {
-        balasMuertasConTiempo = balasQueMurieron.Select(bala => (bala, bala.name.Contains("Super") ? "Super" : "Normal", bala.GetComponent<TorretaBullet>().DeathTime)).ToList();
+        balasMuertasConTiempo = balasQueMurieron
+            .Select(bala => (
+                bala,
+                bala.name.Contains("Super") ? "Super" : "Normal",
+                bala.GetComponent<TorretaBullet>().DeathTime))
+            .ToList();
 
         foreach (var b in balasMuertasConTiempo)
         {
             if (!todasLasBalas.Any(x => x.bala == b.bala))
                 todasLasBalas.Add((b.bala, b.tipo, b.tiempoInstancia));
-
-            totalMuertas = balasMuertasConTiempo.Aggregate(0, (acum, bala) => acum + 1);//Manu Aggregate
         }
+
+        var resultadoMuertas = balasMuertasConTiempo.Aggregate( //Iñaki Aggregate
+            (Total: 0, TiempoAcumulado: 0f),
+            (acc, b) =>
+            {
+                acc.Total++;
+                acc.TiempoAcumulado += b.tiempoInstancia;
+                return acc;
+            });
+
+        totalMuertas = resultadoMuertas.Total;
+        float promedioTiempo = resultadoMuertas.Total > 0 ? resultadoMuertas.TiempoAcumulado / resultadoMuertas.Total : 0;
+
+        Debug.Log($"Murieron {totalMuertas} balas. Tiempo promedio antes de morir: {promedioTiempo:F2} segundos");
     }
 
-    void OrdenarImpactadas()
+    private void OrdenarImpactadas() // Aria LinQ
     {
-        var ordenadasPorTipo = balasImpacto//Aria LinQ
+        var ordenadasPorTipo = balasImpacto
             .Where(b => b.tipo == "Normal" || b.tipo == "Super")
             .OrderBy(b => b.tipo)
             .ToList();
@@ -93,32 +110,47 @@ public class TorretaManager : MonoBehaviour
         {
             Debug.Log($"[Impacto] {b.bala.name} - {b.tipo}");
         }
-
     }
 
-    void OrdenarMuertas()//Aria LinQ
+    private void OrdenarMuertas() // Aria LinQ
     {
         var ordenadasPorTiempo = balasMuertasConTiempo
-            .Skip(0)
             .OrderByDescending(b => b.tiempoInstancia)
             .ToList();
 
         foreach (var b in ordenadasPorTiempo)
-        Debug.Log($"[Muerta] {b.bala.name} - {b.tiempoInstancia}");
+        {
+            Debug.Log($"[Muerta] {b.bala.name} - {b.tiempoInstancia}");
+        }
     }
 
-    void AgregadoYOrdenadoTotal()
+    private void AgregadoYOrdenadoTotal() // Aria Aggregate
     {
-        totalDisparadas = todasLasBalas.Aggregate(0, (acum, b) => acum + 1);//Aria Agregate
+        var resumenDisparadas = todasLasBalas.Aggregate(
+            new Dictionary<string, int>(),
+            (acc, b) =>
+            {
+                if (!acc.ContainsKey(b.tipo))
+                    acc[b.tipo] = 0;
+                acc[b.tipo]++;
+                return acc;
+            });
+
+        totalDisparadas = resumenDisparadas.Values.Sum();
 
         Debug.Log($"Total de balas disparadas: {totalDisparadas}");
+        foreach (var kv in resumenDisparadas)
+        {
+            Debug.Log($"Tipo: {kv.Key} - Cantidad: {kv.Value}");
+        }
 
-        var ordenadasPorTiempo = todasLasBalas//Aria LinQ
+        var ordenadasPorTiempo = todasLasBalas
             .TakeWhile(b => b.tiempoInstancia >= 0)
             .OrderByDescending(b => b.tiempoInstancia)
-            .ToArray();                               
+            .ToArray();
 
         Debug.Log("Balas ordenadas por tiempo de instancia (más recientes primero):");
+
         foreach (var b in ordenadasPorTiempo)
         {
             Debug.Log($"{b.bala.name} - Tipo: {b.tipo} - Tiempo: {b.tiempoInstancia}");

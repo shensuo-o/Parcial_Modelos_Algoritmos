@@ -44,7 +44,7 @@ public class SpawnItems : MonoBehaviour
     {
         foreach (var itemPrefab in itemsAInstanciar)
         {
-            Transform spawnPoint = spawnPoints.OrderByDescending(p => Random.value).First(); //LINQ Grupo 2
+            Transform spawnPoint = spawnPoints.OfType<Transform>().OrderByDescending(p => Random.value).First(); //Manu LINQ
 
             Instantiate(itemPrefab, spawnPoint.position, Quaternion.identity);
 
