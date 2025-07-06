@@ -19,7 +19,7 @@ public class SpawnItems : MonoBehaviour
     private void Start()
     {
         int cantidad = Random.Range(10, maxItemsASpawnear + 1);
-        itemsAInstanciar = GenerarItems(cantidad).ToList(); //LINQ Grupo 3
+        itemsAInstanciar = GenerarItems(cantidad).ToList();
 
         StartCoroutine(SpawnItemsConTiempo());
     }
@@ -28,8 +28,10 @@ public class SpawnItems : MonoBehaviour
     {
         if (itemsDisponibles.Count == 0) yield break;
 
-        //LINQ Grupo 1
-        var filtrados = itemsDisponibles.Where(item => item != null).ToList();//LINQ Grupo 1
+        
+        var filtrados = itemsDisponibles.Where(item => item != null)
+                                        .OrderBy(item => item.name)
+                                        .ToList();//Manu LINQ
 
         for (int i = 0; i < total; i++)
         {
@@ -44,7 +46,10 @@ public class SpawnItems : MonoBehaviour
     {
         foreach (var itemPrefab in itemsAInstanciar)
         {
-            Transform spawnPoint = spawnPoints.OfType<Transform>().OrderByDescending(p => Random.value).First(); //Manu LINQ
+            Transform spawnPoint = spawnPoints
+                                    .OfType<Transform>()
+                                    .OrderByDescending(p => Random.value)
+                                    .First(); //Manu LINQ
 
             Instantiate(itemPrefab, spawnPoint.position, Quaternion.identity);
 

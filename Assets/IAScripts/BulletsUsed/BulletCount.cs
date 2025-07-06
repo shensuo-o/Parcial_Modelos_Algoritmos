@@ -24,7 +24,7 @@ public class BulletCount : MonoBehaviour
 
         totalInstanciados++;
 
-        var ordenados = objetosFiltrados// Iñaki LinQ
+        var ordenados = objetosFiltrados
             .OrderBy(obj => obj.layer == 6 ? 0 : 1) 
             .ThenBy(obj => obj.layer)               
             .ToList();

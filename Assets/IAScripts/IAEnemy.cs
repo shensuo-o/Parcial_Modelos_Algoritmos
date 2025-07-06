@@ -31,55 +31,48 @@ public class IAEnemy : Charecter
     IAttack _myDashAttack;
     IAttack _myShootAttack;
 
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        var stat = GenerarStats(1).First();
-        life = stat.vida;
-        daño = stat.daño;
-        velocidad = stat.velocidad;
 
         randomStrategy = Random.Range(1, 3);
         Tag = randomStrategy;
 
         _myDashAttack = new DashAttack(dashCooldown, rb, spawner);
         _myShootAttack = new ShootAttack(spawner, shootCooldown);
+
         if (randomStrategy == 1) _myCurrentStrategy = _myDashAttack;
         else if (randomStrategy == 2) _myCurrentStrategy = _myShootAttack;
     }
 
-
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        ;
     }
 
     private void Update()
     {
         _distance = Vector3.Distance(transform.position, target.transform.position);
-        if (randomStrategy == 1) _myCurrentStrategy.Update();
-        if (randomStrategy == 2) _myCurrentStrategy.Update();
+        _myCurrentStrategy?.Update();
 
         if (_distance < FlyWeigthPointer.Enemy.rangeView)
         {
             Vector3 lookAtDirection = (target.position - transform.position).normalized;
             LookTarget(lookAtDirection);
             Movement(lookAtDirection);
+
             if (_myCurrentStrategy != null)
             {
                 Debug.Log("enemigo dispara");
                 _myCurrentStrategy.Attack();
             }
         }
+
         if (life <= 0)
         {
             EnemiesKilled.Instance.AddKilledEnemy(this.gameObject);
             this.gameObject.SetActive(false);
         }
-
     }
 
     public void Movement(Vector3 direction)
@@ -92,6 +85,7 @@ public class IAEnemy : Charecter
         Gizmos.DrawWireSphere(transform.position, FlyWeigthPointer.Enemy.rangeView);
         Gizmos.color = Color.red;
     }
+
     private void Reset()
     {
         life = GenerarStats(1).First().vida;
@@ -109,5 +103,12 @@ public class IAEnemy : Charecter
         {
             collision.gameObject.GetComponent<Player>().TakeDamage(daño);
         }
+    }
+
+    public void SetStats(int vida, int daño, float velocidad)
+    {
+        this.life = vida;
+        this.daño = daño;
+        this.velocidad = velocidad;
     }
 }

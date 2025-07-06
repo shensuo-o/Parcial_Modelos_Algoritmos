@@ -50,8 +50,13 @@ public class TorretaManager : MonoBehaviour
 
         foreach (var b in balasImpacto)
         {
-            if (!todasLasBalas.Any(x => x.bala == b.bala))
+            if (!todasLasBalas //Manu Tupla
+                .Where(x => x.bala != null) //Manu LINQ
+                .OrderBy(x => x.bala.name.Length)
+                .Any(x => x.bala == b.bala))
+            {
                 todasLasBalas.Add((b.bala, b.tipo, b.bala.GetComponent<TorretaBullet>().DeathTime));
+            }
         }
 
         var resultadoImpacto = balasImpacto.Aggregate( //Angelo Aggregate
@@ -71,17 +76,21 @@ public class TorretaManager : MonoBehaviour
 
     private void BalasMuertas() // Iñaki Tupla
     {
-        balasMuertasConTiempo = balasQueMurieron
-            .Select(bala => (
-                bala,
-                bala.name.Contains("Super") ? "Super" : "Normal",
-                bala.GetComponent<TorretaBullet>().DeathTime))
-            .ToList();
+        balasMuertasConTiempo = balasQueMurieron //Iñaki LINQ
+                                .Select(bala => (bala, tipo: bala.name.Contains("Super") ? "Super" : "Normal", 
+                                                        tiempo: bala.GetComponent<TorretaBullet>().DeathTime))
+                                .OrderBy(b => b.tipo)
+                                .ThenByDescending(b => b.tiempo)
+                                .ToList();
 
         foreach (var b in balasMuertasConTiempo)
         {
-            if (!todasLasBalas.Any(x => x.bala == b.bala))
+            if (!todasLasBalas.Where(x => x.bala != null) //Iñaki LINQ
+                                .OrderBy(x => x.bala.name.Length)
+                                .Any(x => x.bala == b.bala))
+            {
                 todasLasBalas.Add((b.bala, b.tipo, b.tiempoInstancia));
+            }
         }
 
         var resultadoMuertas = balasMuertasConTiempo.Aggregate( //Iñaki Aggregate
@@ -115,6 +124,7 @@ public class TorretaManager : MonoBehaviour
     private void OrdenarMuertas() // Aria LinQ
     {
         var ordenadasPorTiempo = balasMuertasConTiempo
+            .Where(b => b.tipo == "Normal" || b.tipo == "Super")
             .OrderByDescending(b => b.tiempoInstancia)
             .ToList();
 

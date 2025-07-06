@@ -15,12 +15,15 @@ public class SuperSpawnEnemy : MonoBehaviour
 
     private List<GameObject> enemigosGenerados = new();
 
+    private (int vida, int daño, float velocidad)[] statsFiltrados;
+
     void Start()
     {
-        var statsFiltrados = IAEnemy.GenerarStats(10)//Angelo LinQ
-        .Where(s => s.velocidad > 3f)
-        .OrderBy(s => s.vida)    
-        .ToArray();
+        statsFiltrados = IAEnemy.GenerarStats(cantidadEnemigos * 2)//Angelo LINQ
+            .Where(s => s.velocidad > 3f)
+            .OrderBy(s => s.vida)
+            .Take(cantidadEnemigos)
+            .ToArray();
 
         StartCoroutine(SpawnEnemigosCoroutine());
     }
@@ -36,12 +39,12 @@ public class SuperSpawnEnemy : MonoBehaviour
 
     private IEnumerator SpawnEnemigosCoroutine()//Angelo Time Slicing
     {
-        var enemigosDatos = GenerarEnemigos(cantidadEnemigos) //Angelo LINQ
+        var enemigosDatos = GenerarEnemigos(cantidadEnemigos)
             .Where(e => e.tagAleatorio == 1 || e.tagAleatorio == 2)
             .OrderBy(e => e.tagAleatorio)
             .ToList();
 
-        var enemigosConSpawn = enemigosDatos.Select(e => //Angelo LINQ 
+        var enemigosConSpawn = enemigosDatos.Select(e =>
         {
             int spawnIndex = Random.Range(0, puntosDeSpawn.Length);
             return new
@@ -49,7 +52,7 @@ public class SuperSpawnEnemy : MonoBehaviour
                 index = e.index,
                 tag = e.tagAleatorio,
                 spawnIndex = spawnIndex
-            };//Angelo Anonimo
+            };
         }).OrderByDescending(e => e.spawnIndex)
           .ToArray();
 
@@ -60,10 +63,16 @@ public class SuperSpawnEnemy : MonoBehaviour
             GameObject nuevoEnemigo = Instantiate(enemyPrefab, punto.position, Quaternion.identity);
             enemigosGenerados.Add(nuevoEnemigo);
 
-            Enemy enemyScript = nuevoEnemigo.GetComponent<Enemy>();
-            if (enemyScript != null)
+            IAEnemy enemyIA = nuevoEnemigo.GetComponent<IAEnemy>();
+            if (enemyIA != null)
             {
-                enemyScript.Tag = e.tag;
+                enemyIA.Tag = e.tag;
+
+                if (e.index < statsFiltrados.Length)
+                {
+                    var stat = statsFiltrados[e.index];
+                    enemyIA.SetStats(stat.vida, stat.daño, stat.velocidad);
+                }
             }
 
             Debug.Log($"Enemy {e.index} tipo {e.tag} spawneado en punto {e.spawnIndex}");
@@ -74,4 +83,3 @@ public class SuperSpawnEnemy : MonoBehaviour
         Debug.Log("Todos los enemigos fueron spawneados.");
     }
 }
-
